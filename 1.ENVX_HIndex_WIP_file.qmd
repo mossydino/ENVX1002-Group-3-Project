@@ -45,7 +45,7 @@ Intructions: Make a folder in your docs and a new project in RStudio. Create a s
 -   [x] EDA - central tendency stats
 -   [x] EDA - Distribution stats
 -   [x] EDA - QQ plots and histograms
--   [ ] EDA - log transform data
+-   [ ] EDA - log transform data - Currently stuck here.
 -   [ ] Model - hypotheses, null and alternate
 -   [ ] Model - fit the model
 -   [ ] Model - Check assumptions
@@ -208,3 +208,58 @@ Therefore we can conclude that the data is positively skewed.
 
 ```
 
+
+### Transformations
+
+**Transformation Codes:**
+```{r}
+#gdp
+WHR_2023$log10_gdp <- log10(WHR_2023$gdp_per_capita) #new colum for log10 data
+log10_gdp <- log10(gdp) #log10 transformation
+natlog_gdp <- log1p(gdp) #natural log transformation
+sqrt_gdp <- sqrt(gdp) #square root transformation
+cbrt_gdp <- sign(gdp) * abs(gdp) ^ (1/3) #cube root transformation
+```
+
+```{r}
+#life expectancy
+WHR_2023$log10_life <- log10(WHR_2023$healthy_life_expectancy)
+log10_life <- WHR_2023$log10_life
+natlog_life <- log1p(life)
+sqrt_life <- sqrt(life)
+cbrt_life <- sign(life) * abs(life) ^ (1/3)
+```
+
+**Re-checking assumptions:**
+```{r}
+ggplot(WHR_2023, aes(x = sqrt_life))+
+  geom_histogram(binwidth = 0.1, fill = "lightgreen", colour = "black")+
+  xlab("GDP per capita")
+```
+
+**Formal Testing:**
+```{r}
+shapiro.test(cbrt_life)
+```
+*Problem solving notes for skewed GDP data:*
+Log10 transformation: failed (dammit). Data still majorly skewed.
+Shapiro-test result: NA
+
+Natural log transformation: failed (double dammit). Data still skewed, less than log10 transformation.
+Shaprio-test result: 1.302e-06. *Violates normality.*
+
+Square root transformation: The least skewed in appearance.
+Shapiro-test result: 1.194e-08. *Violates normality.*
+
+Cube root transformation: As bad as the log10 transformation.
+Shaprio-test result: 5.168e-13. *Violates normality*
+
+
+*Problem Solving for skewed Life Expectancy data:*
+Log10 Transformation: failed. Shapiro-test result = NA.
+
+Natural Log transformation: failed. Shapiro-test result = 1.79e-05.*Violates normality*
+
+Square root transformation: failed. shapiro-test result = 2.477e-07.*Violates normality*
+
+Cube root transformation: failed. Shapiro-test result = 6.272e-10.*Violates normality*
