@@ -1,0 +1,156 @@
+---
+title: "ENVX1002_Group_Project"
+format: 
+  html:
+    embed-resources: true
+    code-background: true
+
+---
+
+# **-NOT THE FINAL DOCUMENT-**
+
+# Outline
+
+**EDA**
+
+-   What are the variables like.
+
+-   Central value and spread of variables.
+
+-   Distribution of data.
+
+**Modelling**
+
+1.  Null and alternate hypotheses
+
+2.  Fit the model
+
+3.  check Assumptions
+
+4.  interpret model output. State the equation, state estimates and what they mean.
+
+5.  Interpret significance of model and predictors.
+
+6.  Interpret model fit statistics. Residual standard error, appropriate R2, plot regression line.
+
+7.  Statistical conclusion
+
+8.  Scientific conclusion.
+
+## Checklist
+
+-   [x] EDA - central tendency stats
+-   [ ] EDA - Distribution stats
+-   [ ] EDA - QQ plots and histograms
+-   [ ] Model - hypotheses, null and alternate
+-   [ ] Model - fit the model
+-   [ ] Model - Check assumptions
+-   [ ] Model - output equation
+-   [ ] Model - estimates and what they mean
+-   [ ] Model - interpret significance of model and predictors
+-   [ ] Model - Model fit statistics, R2, Residual SE, plot regression line
+-   [ ] Model - statistical and scientific conclusions.
+
+# Now here's the actually important stuff
+
+Set up stuff:
+
+```{r}
+library(readr)
+library(tidyverse)
+library(modeest)
+library(ggplot2)
+```
+
+```{r}
+WHR_2023 <- read_csv("data/WHR_2023.csv")
+gdp <- WHR_2023$gdp_per_capita
+life <- WHR_2023$healthy_life_expectancy
+happy <- WHR_2023$happiness_score
+```
+
+## EDA Section
+
+Variable Description: Both GDP per capita and Healthy Life Expectancy are continuous, numerical variables.
+
+There are no missing data points in GDP per capita. There is one missing data point in Healthy Life Expectancy. The missing data point is from the State of Palestine.
+
+### Central tendency stats
+
+**GDP:** Mean, median, mode.
+
+```{r}
+mean_gdp <- mean(gdp)
+median_gdp <- median(gdp)
+mode_gdp <- mfv(gdp)[1]
+mean_gdp
+median_gdp
+mode_gdp
+```
+
+Summary: Mean = 1.406985. Median = 1.449. Mode = 0.914.
+
+**Healthy life expectancy:** Mean, median, mode.
+
+```{r}
+mean_life <- mean(life, na.rm = TRUE)
+median_life <- median(life, na.rm = TRUE)
+mode_life <- mfv(life, na_rm = TRUE)[1]
+mean_life
+median_life
+mode_life
+```
+
+Summary: Mean = 0.3661765. median = 0.3895, mode = 0.389.
+
+**GDP:** Measures of Spread
+
+```{r}
+range_gdp <- range(gdp)
+iqr_gdp <- IQR(gdp)
+var_gdp <- var(gdp)
+sd_gdp <- sd(gdp)
+range_gdp
+iqr_gdp
+var_gdp
+sd_gdp
+```
+
+Summary: Range = 0 to 2.2. Interquartile range (IQR) = 0.699. Variance = 0.1874567. Standard Deviation (SD) = 0.4329627.
+
+```{r}
+# Standard error = population sd / sqrt(n) = 0.43 / sqrt(137)
+se_gdp <- 0.43/sqrt(137)
+se_gdp
+```
+Summary: Standard Error of GDP per capita = 0.03673738
+
+**Life Expectancy** Measures of Spread
+
+```{r}
+range_life <- range(life, na.rm = TRUE)
+iqr_life <- IQR(life, na.rm = TRUE)
+var_life <- var(life, na.rm = TRUE)
+sd_life <- sd(life, na.rm = TRUE)
+range_life
+iqr_life
+var_life
+sd_life
+```
+Summary: Range = 0 to 0.702. Interquartile range (IQR) = 0.239. Variance = 0.0245521. Standard Deviation (SD) = 0.1566911.
+
+```{r}
+#Standard error = population sd / sqrt(n) = 0.16 / sqrt(136)
+se_life <- 0.16/ sqrt(136)
+se_life
+```
+Summary: Standard error of Life Expectancy = 0.01371989.
+
+### Distribution Analysis
+
+**GDP**
+```{r}
+ggplot(WHR_2023, aes(x = gdp))+
+  geom_histogram(binwidth = 0.1)
+```
+
