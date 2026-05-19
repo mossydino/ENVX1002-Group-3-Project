@@ -40,8 +40,9 @@ format:
 ## Checklist
 
 -   [x] EDA - central tendency stats
--   [ ] EDA - Distribution stats
--   [ ] EDA - QQ plots and histograms
+-   [x] EDA - Distribution stats
+-   [x] EDA - QQ plots and histograms
+-   [ ] EDA - log transform data
 -   [ ] Model - hypotheses, null and alternate
 -   [ ] Model - fit the model
 -   [ ] Model - Check assumptions
@@ -151,6 +152,56 @@ Summary: Standard error of Life Expectancy = 0.01371989.
 **GDP**
 ```{r}
 ggplot(WHR_2023, aes(x = gdp))+
-  geom_histogram(binwidth = 0.1)
+  geom_histogram(binwidth = 0.1, fill = "lightgreen", colour = "black")+
+  xlab("GDP per capita")
+```
+First impressions: Data is not normal and is skewed to the right. [self-note] use log10 transformation
+
+```{r}
+ggplot(WHR_2023, aes(sample= gdp))+
+  stat_qq()+
+  stat_qq_line()+
+  labs(title = "QQ plot of GDP per capita", x = "GDP per capita", y = "Count")
+```
+Statistical analysis of distribution:
+```{r}
+library(moments)
+skewness(gdp)
+kurtosis(gdp)
+```
+Summary: Skewness = -0.4782739. Kurtosis = 2.64509.
+
+```{r}
+shapiro.test(gdp)
+```
+Summary: The formal normality test indicates that the null hypothesis of the data following a normal distribution should be rejected (p-value = p-value = 0.001494). 
+Therefore we can conclude that the data is positively skewed.
+
+
+**Life Expectancy**
+```{r}
+ggplot(WHR_2023, aes(x = life))+
+  geom_histogram(binwidth = 0.1, fill = "lightgreen", colour = "black")+
+  xlab("Healthy Life Expectancy")
+```
+```{r}
+ggplot(WHR_2023, aes(sample= life))+
+  stat_qq()+
+  stat_qq_line()+
+  labs(title = "QQ plot of Healthy Life Expectancy", x = "Healthy Life Expectancy", y = "Count")
+```
+Statistical Analysis of distribution data:
+```{r}
+skewness(life, na.rm = TRUE)
+kurtosis(life, na.rm = TRUE)
+```
+Summary: Skewness = -0.4038421. Kurtosis = 2.20732.
+
+```{r}
+shapiro.test(life)
+```
+The formal normality test indicates that the null hypothesis of the data following a normal distribution should be rejected (p-value = p-value = 0.0002804). 
+Therefore we can conclude that the data is positively skewed.
+
 ```
 
