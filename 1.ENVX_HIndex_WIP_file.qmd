@@ -8,6 +8,9 @@ format:
 ---
 
 # **-NOT THE FINAL DOCUMENT-**
+I'll make a proper, professional looking one for final submission. This file is the raw data analysis. 
+
+Intructions: Make a folder in your docs and a new project in RStudio. Create a sub-folder labelled "data" and copy the "WHR_2023" File from the World Happiness Index dataset into the new "data" folder. Open the relevant RStudio project and simply copy-paste all the code into a new quarto document to view everything below in the Quarto doc format that we all know and "love". 
 
 # Outline
 
