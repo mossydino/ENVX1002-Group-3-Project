@@ -45,14 +45,13 @@ Intructions: Make a folder in your docs and a new project in RStudio. Create a s
 -   [x] EDA - central tendency stats
 -   [x] EDA - Distribution stats
 -   [x] EDA - QQ plots and histograms
--   [ ] EDA - log transform data - Currently stuck here.
--   [ ] Model - hypotheses, null and alternate
--   [ ] Model - fit the model
--   [ ] Model - Check assumptions
--   [ ] Model - output equation
+-   [x] Model - hypotheses, null and alternate
+-   [x] Model - fit the model
+-   [x] Model - Check assumptions
+-   [x] Model - output equation
 -   [ ] Model - estimates and what they mean
 -   [ ] Model - interpret significance of model and predictors
--   [ ] Model - Model fit statistics, R2, Residual SE, plot regression line
+-   [ ] Model - Interpretation of model fit statistics, R2, Residual SE, plot regression line
 -   [ ] Model - statistical and scientific conclusions.
 
 # Now here's the actually important stuff
