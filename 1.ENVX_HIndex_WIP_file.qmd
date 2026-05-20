@@ -225,10 +225,11 @@ Output: 0.8375183
 
 ## 1. Hypothesis
 
-H0: The null hypothesis is that gdp is not a significant predictor of healthy life expectancy. Slope = 0.
+Aim: To determine whether the amount of GDP per capita (GDP) increases Healthy Life Expectancy (Life)
 
-H1: The alternate hypothesis is that gdp is a significant predictor of healthy life expectancy. Slope =/= 0.
+H0: Slope of the fitted model = 0, therefore GDP per capita is not a significant predictor of Healthy Life Expectancy, and the mean of Healthy Life Expectancy is a better estimate. We could not conclude that GDP per capita does not adequately explain the variation in Healthy Life Expectancy.
 
+H1: Slope of the fitted model =/= 0, therefore we can say that GDP per capita is a significant predictor of Healthy Life Expectancy.
 
 ## 2. Fit the model
 ```{r}
