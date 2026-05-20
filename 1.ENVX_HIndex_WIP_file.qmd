@@ -209,57 +209,59 @@ Therefore we can conclude that the data is positively skewed.
 ```
 
 
-### Transformations
-
-**Transformation Codes:**
+# Regression Model Section
+Scatterplot
 ```{r}
-#gdp
-WHR_2023$log10_gdp <- log10(WHR_2023$gdp_per_capita) #new colum for log10 data
-log10_gdp <- log10(gdp) #log10 transformation
-natlog_gdp <- log1p(gdp) #natural log transformation
-sqrt_gdp <- sqrt(gdp) #square root transformation
-cbrt_gdp <- sign(gdp) * abs(gdp) ^ (1/3) #cube root transformation
+plot(gdp, life)
+plot(life, gdp)
 ```
 
+Correlation coefficient:
 ```{r}
-#life expectancy
-WHR_2023$log10_life <- log10(WHR_2023$healthy_life_expectancy)
-log10_life <- WHR_2023$log10_life
-natlog_life <- log1p(life)
-sqrt_life <- sqrt(life)
-cbrt_life <- sign(life) * abs(life) ^ (1/3)
+cor(gdp, life, use = "complete.obs")
+```
+Output: 0.8375183
+
+
+## 1. Hypothesis
+
+H0: The null hypothesis is that gdp is not a significant predictor of healthy life expectancy. Slope = 0.
+
+H1: The alternate hypothesis is that gdp is a significant predictor of healthy life expectancy. Slope =/= 0.
+
+
+## 2. Fit the model
+```{r}
+model.lm <- lm(gdp ~ life, data = WHR_2023)
 ```
 
-**Re-checking assumptions:**
+## 3. Checking Assumptions
 ```{r}
-ggplot(WHR_2023, aes(x = sqrt_life))+
-  geom_histogram(binwidth = 0.1, fill = "lightgreen", colour = "black")+
-  xlab("GDP per capita")
+par(mfrow = c(2,2))
+plot(model.lm)
 ```
+Data appears to meet all assumptions, therefore the model fits and thus data analysis can proceed without transformations.
 
-**Formal Testing:**
 ```{r}
-shapiro.test(cbrt_life)
+summary(model.lm)
 ```
-*Problem solving notes for skewed GDP data:*
-Log10 transformation: failed (dammit). Data still majorly skewed.
-Shapiro-test result: NA
+**Output Summary:**
 
-Natural log transformation: failed (double dammit). Data still skewed, less than log10 transformation.
-Shaprio-test result: 1.302e-06. *Violates normality.*
+Coefficients: Intercept Estimate = 0.55954. Life expectancy estimate = 2.31958.
 
-Square root transformation: The least skewed in appearance.
-Shapiro-test result: 1.194e-08. *Violates normality.*
+Residual standard error: 0.238 on 134 DF.
 
-Cube root transformation: As bad as the log10 transformation.
-Shaprio-test result: 5.168e-13. *Violates normality*
+Multiple R-squared: 0.7014. Adjusted R-squared: 0.6992. F-statistic: 314.8 on 1 and 134 DF. P-value <2.2e-16.
 
+## 4. Regression Equation and estimates
 
-*Problem Solving for skewed Life Expectancy data:*
-Log10 Transformation: failed. Shapiro-test result = NA.
+**Regression Line equation**
 
-Natural Log transformation: failed. Shapiro-test result = 1.79e-05.*Violates normality*
+basic equation: intercept = y-mean - gradient * x-mean
 
-Square root transformation: failed. shapiro-test result = 2.477e-07.*Violates normality*
+GDP = 0.366 - 2.319 * Healthy Life expectancy
 
-Cube root transformation: failed. Shapiro-test result = 6.272e-10.*Violates normality*
+## Adding the linear model to the scatterplot.
+```{r}
+plot(life, gdp, xlab = "GDP per capita", ylab = "Healthy Life Expectancy")
+abline(model.lm, col = "red")
