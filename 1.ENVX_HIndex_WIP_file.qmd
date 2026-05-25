@@ -6,55 +6,7 @@ format:
     code-background: true
 
 ---
-
-# **-NOT THE FINAL DOCUMENT-**
-I'll make a proper, professional looking one for final submission. This file is the raw data analysis. 
-
-Intructions: Make a folder in your docs and a new project in RStudio. Create a sub-folder labelled "data" and copy the "WHR_2023" File from the World Happiness Index dataset into the new "data" folder. Open the relevant RStudio project and simply copy-paste all the code into a new quarto document to view everything below in the Quarto doc format that we all know and "love". 
-
-# Outline
-
-**EDA**
-
--   What are the variables like.
-
--   Central value and spread of variables.
-
--   Distribution of data.
-
-**Modelling**
-
-1.  Null and alternate hypotheses
-
-2.  Fit the model
-
-3.  check Assumptions
-
-4.  interpret model output. State the equation, state estimates and what they mean.
-
-5.  Interpret significance of model and predictors.
-
-6.  Interpret model fit statistics. Residual standard error, appropriate R2, plot regression line.
-
-7.  Statistical conclusion
-
-8.  Scientific conclusion.
-
-## Checklist
-
--   [x] EDA - central tendency stats
--   [x] EDA - Distribution stats
--   [x] EDA - QQ plots and histograms
--   [x] Model - hypotheses, null and alternate
--   [x] Model - fit the model
--   [x] Model - Check assumptions
--   [x] Model - output equation
--   [ ] Model - estimates and what they mean
--   [ ] Model - interpret significance of model and predictors
--   [ ] Model - Interpretation of model fit statistics, R2, Residual SE, plot regression line
--   [ ] Model - statistical and scientific conclusions.
-
-# Now here's the actually important stuff
+# Data Analysis Report for ENVX1002 Group 3
 
 Set up stuff:
 
@@ -126,9 +78,10 @@ Summary: Range = 0 to 2.2. Interquartile range (IQR) = 0.699. Variance = 0.18745
 se_gdp <- 0.43/sqrt(137)
 se_gdp
 ```
+
 Summary: Standard Error of GDP per capita = 0.03673738
 
-**Life Expectancy** Measures of Spread
+**Life Expectancy:** Measures of Spread
 
 ```{r}
 range_life <- range(life, na.rm = TRUE)
@@ -140,6 +93,7 @@ iqr_life
 var_life
 sd_life
 ```
+
 Summary: Range = 0 to 0.702. Interquartile range (IQR) = 0.239. Variance = 0.0245521. Standard Deviation (SD) = 0.1566911.
 
 ```{r}
@@ -147,17 +101,20 @@ Summary: Range = 0 to 0.702. Interquartile range (IQR) = 0.239. Variance = 0.024
 se_life <- 0.16/ sqrt(136)
 se_life
 ```
+
 Summary: Standard error of Life Expectancy = 0.01371989.
 
 ### Distribution Analysis
 
 **GDP**
+
 ```{r}
 ggplot(WHR_2023, aes(x = gdp))+
   geom_histogram(binwidth = 0.1, fill = "lightgreen", colour = "black")+
   xlab("GDP per capita")
 ```
-First impressions: Data is not normal and is skewed to the right. [self-note] use log10 transformation
+
+First impressions: Data is not normal and is skewed to the right. 
 
 ```{r}
 ggplot(WHR_2023, aes(sample= gdp))+
@@ -165,48 +122,52 @@ ggplot(WHR_2023, aes(sample= gdp))+
   stat_qq_line()+
   labs(title = "QQ plot of GDP per capita", x = "GDP per capita", y = "Count")
 ```
-Statistical analysis of distribution:
+
+**Statistical analysis of distribution:**
+
 ```{r}
 library(moments)
 skewness(gdp)
 kurtosis(gdp)
 ```
+
 Summary: Skewness = -0.4782739. Kurtosis = 2.64509.
 
 ```{r}
 shapiro.test(gdp)
 ```
-Summary: The formal normality test indicates that the null hypothesis of the data following a normal distribution should be rejected (p-value = p-value = 0.001494). 
-Therefore we can conclude that the data is positively skewed.
 
+Summary: The formal normality test indicates that the null hypothesis of the data following a normal distribution should be rejected (p-value = p-value = 0.001494). Therefore we can conclude that the data is positively skewed.
 
 **Life Expectancy**
+
 ```{r}
 ggplot(WHR_2023, aes(x = life))+
   geom_histogram(binwidth = 0.1, fill = "lightgreen", colour = "black")+
   xlab("Healthy Life Expectancy")
 ```
+
 ```{r}
 ggplot(WHR_2023, aes(sample= life))+
   stat_qq()+
   stat_qq_line()+
   labs(title = "QQ plot of Healthy Life Expectancy", x = "Healthy Life Expectancy", y = "Count")
 ```
-Statistical Analysis of distribution data:
+
+**Statistical Analysis of distribution data:**
+
 ```{r}
 skewness(life, na.rm = TRUE)
 kurtosis(life, na.rm = TRUE)
 ```
+
 Summary: Skewness = -0.4038421. Kurtosis = 2.20732.
 
 ```{r}
 shapiro.test(life)
 ```
-The formal normality test indicates that the null hypothesis of the data following a normal distribution should be rejected (p-value = p-value = 0.0002804). 
-Therefore we can conclude that the data is positively skewed.
 
-```
-
+The formal normality test indicates that the null hypothesis of the data following a normal distribution should be rejected (p-value = p-value = 0.0002804). Therefore we can conclude that the data is positively skewed.
 
 # Regression Model Section
 Scatterplot
@@ -215,7 +176,7 @@ plot(gdp, life)
 plot(life, gdp)
 ```
 
-Correlation coefficient:
+**Correlation coefficient:**
 ```{r}
 cor(gdp, life, use = "complete.obs")
 ```
@@ -230,9 +191,10 @@ H0: Slope of the fitted model = 0, therefore GDP per capita is not a significant
 
 H1: Slope of the fitted model =/= 0, therefore we can say that GDP per capita is a significant predictor of Healthy Life Expectancy.
 
+
 ## 2. Fit the model
 ```{r}
-model.lm <- lm(gdp ~ life, data = WHR_2023)
+model.lm <- lm(life ~ gdp, data = WHR_2023)
 ```
 
 ## 3. Checking Assumptions
@@ -247,21 +209,35 @@ summary(model.lm)
 ```
 **Output Summary:**
 
-Coefficients: Intercept Estimate = 0.55954. Life expectancy estimate = 2.31958.
+Coefficients: Intercept Estimate = - 0.05988. Life expectancy estimate = 0.30240.
 
-Residual standard error: 0.238 on 134 DF.
+Residual standard error: 0.08594 on 134 DF.
 
 Multiple R-squared: 0.7014. Adjusted R-squared: 0.6992. F-statistic: 314.8 on 1 and 134 DF. P-value <2.2e-16.
 
 ## 4. Regression Equation and estimates
 
-**Regression Line equation**
+**Regression Line equation:**
 
-basic equation: intercept = y-mean - gradient * x-mean
+Basic equation: intercept = y-mean - gradient * x-mean
 
-GDP = 0.366 - 2.319 * Healthy Life expectancy
+GDP = -0.06 - 0.30 * Healthy Life expectancy
 
 ## Adding the linear model to the scatterplot.
 ```{r}
 plot(life, gdp, xlab = "GDP per capita", ylab = "Healthy Life Expectancy")
 abline(model.lm, col = "red")
+```
+
+## 5. Conclusions
+
+**Statistical Conclusion:**
+As the p value (< 2.2e-16) is below 0.05, the null hypothesis is rejected. 
+
+There is a significant relationship between healthy life expectancy and GDP per capita (linear regression: R^2 = 0.70, F = 314.80, df = 1, 134, p<2.2e-16). 
+
+Healthy Life Expectancy = 0.302 x GDP per capita - 0.060
+
+**Biological Conclusion:**
+
+GDP per capita is a significant predictor of healthy life expectancy (p = < 2.2e-16) - it accounts for 70% of the variation found in healthy life expectancy. 
