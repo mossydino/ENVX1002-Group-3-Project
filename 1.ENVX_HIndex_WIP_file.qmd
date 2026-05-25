@@ -185,9 +185,9 @@ Output: 0.8375183
 
 ## 1. Hypothesis
 
-Aim: To determine whether the amount of GDP per capita (GDP) increases Healthy Life Expectancy (Life)
+Aim: Using simple linear regression, we aimed to quantify the relationship between GDP per capita and healthy life expectancy across 137 countries using 2023 WHR data
 
-H0: Slope of the fitted model = 0, therefore GDP per capita is not a significant predictor of Healthy Life Expectancy, and the mean of Healthy Life Expectancy is a better estimate. We could not conclude that GDP per capita does not adequately explain the variation in Healthy Life Expectancy.
+H0: Slope of the fitted model = 0, therefore GDP per capita is not a significant predictor of Healthy Life Expectancy, and the mean of Healthy Life Expectancy is a better estimate. 
 
 H1: Slope of the fitted model =/= 0, therefore we can say that GDP per capita is a significant predictor of Healthy Life Expectancy.
 
@@ -214,6 +214,15 @@ Coefficients: Intercept Estimate = - 0.05988. Life expectancy estimate = 0.30240
 Residual standard error: 0.08594 on 134 DF.
 
 Multiple R-squared: 0.7014. Adjusted R-squared: 0.6992. F-statistic: 314.8 on 1 and 134 DF. P-value <2.2e-16.
+
+**Interpretation:**
+
+The residual standard error is a low value, which shows that the model is a good fit for the data.
+
+The multiple R-squared = 0.7014, which means that the model explains 70% of the variance from GDP per capita.
+
+Based on the model, the P-value for GDP per capita (p < 2.2e-16) is significant (p<0.05) From this, we reject the null hypothesis and conclude that the slope is not 0. This highlights that the model is effective in predicting Healthy Life expectancy from GDP per Capita.
+
 
 ## 4. Regression Equation and estimates
 
