@@ -43,7 +43,7 @@ median_gdp
 mode_gdp
 ```
 
-Summary: Mean = 1.406985. Median = 1.449. Mode = 0.914.
+*Summary:* Mean = 1.406985. Median = 1.449. Mode = 0.914.
 
 **Healthy life expectancy:** Mean, median, mode.
 
@@ -56,7 +56,7 @@ median_life
 mode_life
 ```
 
-Summary: Mean = 0.3661765. median = 0.3895, mode = 0.389.
+*Summary:* Mean = 0.3661765. median = 0.3895, mode = 0.389.
 
 **GDP:** Measures of Spread
 
@@ -70,16 +70,14 @@ iqr_gdp
 var_gdp
 sd_gdp
 ```
-
-Summary: Range = 0 to 2.2. Interquartile range (IQR) = 0.699. Variance = 0.1874567. Standard Deviation (SD) = 0.4329627.
+*Summary:* Range = 0 to 2.2. Interquartile range (IQR) = 0.699. Variance = 0.1874567. Standard Deviation (SD) = 0.4329627.
 
 ```{r}
 # Standard error = population sd / sqrt(n) = 0.43 / sqrt(137)
 se_gdp <- 0.43/sqrt(137)
 se_gdp
 ```
-
-Summary: Standard Error of GDP per capita = 0.03673738
+*Summary:* Standard Error of GDP per capita = 0.03673738
 
 **Life Expectancy:** Measures of Spread
 
@@ -93,16 +91,14 @@ iqr_life
 var_life
 sd_life
 ```
-
-Summary: Range = 0 to 0.702. Interquartile range (IQR) = 0.239. Variance = 0.0245521. Standard Deviation (SD) = 0.1566911.
+*Summary:* Range = 0 to 0.702. Interquartile range (IQR) = 0.239. Variance = 0.0245521. Standard Deviation (SD) = 0.1566911.
 
 ```{r}
 #Standard error = population sd / sqrt(n) = 0.16 / sqrt(136)
 se_life <- 0.16/ sqrt(136)
 se_life
 ```
-
-Summary: Standard error of Life Expectancy = 0.01371989.
+*Summary:* Standard error of Life Expectancy = 0.01371989.
 
 ### Distribution Analysis
 
@@ -130,14 +126,12 @@ library(moments)
 skewness(gdp)
 kurtosis(gdp)
 ```
-
-Summary: Skewness = -0.4782739. Kurtosis = 2.64509.
+*Summary:* Skewness = -0.4782739. Kurtosis = 2.64509.
 
 ```{r}
 shapiro.test(gdp)
 ```
-
-Summary: The formal normality test indicates that the null hypothesis of the data following a normal distribution should be rejected (p-value = p-value = 0.001494). Therefore we can conclude that the data is positively skewed.
+*Summary:* The formal normality test indicates that the null hypothesis of the data following a normal distribution should be rejected (p-value = p-value = 0.001494). Therefore we can conclude that the data is positively skewed.
 
 **Life Expectancy**
 
@@ -160,17 +154,15 @@ ggplot(WHR_2023, aes(sample= life))+
 skewness(life, na.rm = TRUE)
 kurtosis(life, na.rm = TRUE)
 ```
-
-Summary: Skewness = -0.4038421. Kurtosis = 2.20732.
+*Summary:* Skewness = -0.4038421. Kurtosis = 2.20732.
 
 ```{r}
 shapiro.test(life)
 ```
-
 The formal normality test indicates that the null hypothesis of the data following a normal distribution should be rejected (p-value = p-value = 0.0002804). Therefore we can conclude that the data is positively skewed.
 
 # Regression Model Section
-Scatterplot
+Scatterplot:
 ```{r}
 plot(gdp, life)
 plot(life, gdp)
@@ -180,8 +172,7 @@ plot(life, gdp)
 ```{r}
 cor(gdp, life, use = "complete.obs")
 ```
-Output: 0.8375183
-
+*Output:* 0.8375183
 
 ## 1. Hypothesis
 
@@ -190,7 +181,6 @@ Aim: Using simple linear regression, we aimed to quantify the relationship betwe
 H0: Slope of the fitted model = 0, therefore GDP per capita is not a significant predictor of Healthy Life Expectancy, and the mean of Healthy Life Expectancy is a better estimate. 
 
 H1: Slope of the fitted model =/= 0, therefore we can say that GDP per capita is a significant predictor of Healthy Life Expectancy.
-
 
 ## 2. Fit the model
 ```{r}
